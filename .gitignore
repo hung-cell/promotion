@@ -41,3 +41,7 @@ build/
 gradle/
 gradlew
 gradlew.bat
+
+### Logs ###
+logs/
+*.log

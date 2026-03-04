@@ -1,0 +1,92 @@
+spring:
+  application:
+    name: promotion-management-service
+
+  profiles:
+    active: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/promotion_management?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  # Redis configuration
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 20
+          max-idle: 10
+          min-idle: 5
+
+  # Kafka configuration
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+    template:
+      default-topic: promotion.lifecycle.events
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.example.promotion: DEBUG
+  file:
+    name: logs/promotion-management.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+
+# =================== App Config ===================
+app:
+  pagination:
+    max-size: 100
+  coupon:
+    reservation:
+      ttl-minutes: 15
+  promotion:
+    scheduler:
+      expire-rate-ms: 60000
+  coupon:
+    scheduler:
+      release-rate-ms: 60000
+
+# Kafka topics
+kafka:
+  topics:
+    promotion-lifecycle: promotion.lifecycle.events
+    promotion-rules: promotion.rule.events
+    promotion-conditions: promotion.condition.events
+
+# Promotion Engine Service connection
+promotion-engine:
+  base-url: http://localhost:8081
+  api-key: ${PROMOTION_ENGINE_API_KEY:dev-api-key-12345}
+  connect-timeout: 5000
+  read-timeout: 10000

@@ -1,47 +1,60 @@
-HELP.md
+# Compiled class files
+*.class
+
+# Log files
+*.log
+logs/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Maven
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### IntelliJ IDEA ###
-.idea
+# IDE
+.idea/
 *.iws
 *.iml
 *.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
 .vscode/
+*.swp
+*.swo
+*~
 
-### Gradle (legacy) ###
-.gradle/
-build/
-gradle/
-gradlew
-gradlew.bat
+# Eclipse
+.classpath
+.project
+.settings/
+.metadata/
 
-### Logs ###
-logs/
-*.log
+# OS
+.DS_Store
+Thumbs.db
+
+# Application
+application-local.yml
+application-prod.yml
+*.env
+.env
+
+# Docker
+docker-compose.override.yml
+
+# Test
+*.bak
+*.backup

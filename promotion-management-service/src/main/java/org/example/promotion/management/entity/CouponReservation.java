@@ -1,4 +1,4 @@
-package org.example.promotion.entity;
+package org.example.promotion.management.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.example.promotion.enums.ReservationStatus;
+import org.example.promotion.common.enums.ReservationStatus;
 
 import java.time.LocalDateTime;
 

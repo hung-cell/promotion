@@ -1,15 +1,18 @@
-package org.example.promotion.controller;
+package org.example.promotion.management.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.promotion.common.AppConstants;
-import org.example.promotion.dto.request.*;
-import org.example.promotion.dto.response.*;
-import org.example.promotion.enums.PromotionStatus;
-import org.example.promotion.service.IAuditLogService;
-import org.example.promotion.service.IPromotionConditionService;
-import org.example.promotion.service.IPromotionRuleService;
-import org.example.promotion.service.IPromotionService;
+import org.example.promotion.management.dto.request.*;
+import org.example.promotion.management.dto.response.*;
+import org.example.promotion.common.dto.response.ApiResponse;
+import org.example.promotion.common.dto.response.PageResponse;
+import org.example.promotion.common.dto.response.PaginationInfo;
+import org.example.promotion.common.enums.PromotionStatus;
+import org.example.promotion.management.service.IAuditLogService;
+import org.example.promotion.management.service.IPromotionConditionService;
+import org.example.promotion.management.service.IPromotionRuleService;
+import org.example.promotion.management.service.IPromotionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

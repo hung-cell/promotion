@@ -1,6 +1,6 @@
-package org.example.promotion.repository;
+package org.example.promotion.management.repository;
 
-import org.example.promotion.entity.PromotionAuditLog;
+import org.example.promotion.management.entity.PromotionAuditLog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

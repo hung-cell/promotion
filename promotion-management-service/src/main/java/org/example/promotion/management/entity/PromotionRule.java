@@ -1,8 +1,8 @@
-package org.example.promotion.entity;
+package org.example.promotion.management.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.promotion.enums.RuleType;
+import org.example.promotion.common.enums.RuleType;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;

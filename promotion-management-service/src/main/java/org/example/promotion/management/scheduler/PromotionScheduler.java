@@ -1,10 +1,10 @@
-package org.example.promotion.scheduler;
+package org.example.promotion.management.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.promotion.enums.PromotionStatus;
-import org.example.promotion.repository.PromotionRepository;
-import org.example.promotion.service.IAuditLogService;
+import org.example.promotion.common.enums.PromotionStatus;
+import org.example.promotion.management.repository.PromotionRepository;
+import org.example.promotion.management.service.IAuditLogService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

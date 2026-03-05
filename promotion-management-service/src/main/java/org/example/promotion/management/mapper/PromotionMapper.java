@@ -1,14 +1,17 @@
-package org.example.promotion.mapper;
+package org.example.promotion.management.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.promotion.dto.request.CreateConditionRequest;
-import org.example.promotion.dto.request.CreatePromotionRequest;
-import org.example.promotion.dto.request.CreateRuleRequest;
-import org.example.promotion.dto.response.*;
-import org.example.promotion.entity.*;
-import org.example.promotion.enums.PromotionStatus;
+import org.example.promotion.management.dto.request.CreateConditionRequest;
+import org.example.promotion.management.dto.request.CreatePromotionRequest;
+import org.example.promotion.management.dto.request.CreateRuleRequest;
+import org.example.promotion.management.dto.response.*;
+import org.example.promotion.common.dto.response.ApiResponse;
+import org.example.promotion.common.dto.response.PageResponse;
+import org.example.promotion.common.dto.response.PaginationInfo;
+import org.example.promotion.management.entity.*;
+import org.example.promotion.common.enums.PromotionStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;

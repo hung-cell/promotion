@@ -1,6 +1,6 @@
-package org.example.promotion.repository;
+package org.example.promotion.management.repository;
 
-import org.example.promotion.entity.PromotionCondition;
+import org.example.promotion.management.entity.PromotionCondition;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

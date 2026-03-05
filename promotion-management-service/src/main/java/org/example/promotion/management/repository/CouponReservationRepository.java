@@ -1,7 +1,7 @@
-package org.example.promotion.repository;
+package org.example.promotion.management.repository;
 
-import org.example.promotion.entity.CouponReservation;
-import org.example.promotion.enums.ReservationStatus;
+import org.example.promotion.management.entity.CouponReservation;
+import org.example.promotion.common.enums.ReservationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

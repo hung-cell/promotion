@@ -1,10 +1,10 @@
-package org.example.promotion.entity;
+package org.example.promotion.management.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.example.promotion.enums.PromotionStatus;
-import org.example.promotion.enums.PromotionType;
+import org.example.promotion.common.enums.PromotionStatus;
+import org.example.promotion.common.enums.PromotionType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

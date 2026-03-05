@@ -1,10 +1,10 @@
-package org.example.promotion.scheduler;
+package org.example.promotion.management.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.promotion.enums.ReservationStatus;
-import org.example.promotion.repository.CouponRepository;
-import org.example.promotion.repository.CouponReservationRepository;
+import org.example.promotion.common.enums.ReservationStatus;
+import org.example.promotion.management.repository.CouponRepository;
+import org.example.promotion.management.repository.CouponReservationRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package org.example.promotion.entity;
+package org.example.promotion.management.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

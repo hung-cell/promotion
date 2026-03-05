@@ -1,6 +1,6 @@
-package org.example.promotion.exception;
+package org.example.promotion.management.exception;
 
-import org.example.promotion.dto.response.ApiResponse;
+import org.example.promotion.common.dto.response.ApiResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.ResponseEntity;

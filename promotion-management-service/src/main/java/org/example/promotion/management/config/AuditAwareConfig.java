@@ -1,4 +1,4 @@
-package org.example.promotion.config;
+package org.example.promotion.management.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

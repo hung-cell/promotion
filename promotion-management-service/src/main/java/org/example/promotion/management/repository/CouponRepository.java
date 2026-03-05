@@ -1,6 +1,6 @@
-package org.example.promotion.repository;
+package org.example.promotion.management.repository;
 
-import org.example.promotion.entity.Coupon;
+import org.example.promotion.management.entity.Coupon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

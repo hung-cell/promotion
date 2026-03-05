@@ -1,4 +1,4 @@
-package org.example.promotion.exception;
+package org.example.promotion.management.exception;
 
 public class InvalidStatusException extends BaseException {
 

@@ -1,16 +1,16 @@
-package org.example.promotion.controller;
+package org.example.promotion.management.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.promotion.dto.request.RedeemCouponRequest;
-import org.example.promotion.dto.request.ReserveCouponRequest;
-import org.example.promotion.dto.request.ValidateCouponRequest;
-import org.example.promotion.dto.request.CreateCouponRequest;
-import org.example.promotion.dto.response.ApiResponse;
-import org.example.promotion.dto.response.CouponReservationResponse;
-import org.example.promotion.dto.response.CouponValidationResponse;
-import org.example.promotion.dto.response.CouponResponse;
-import org.example.promotion.service.ICouponService;
+import org.example.promotion.management.dto.request.RedeemCouponRequest;
+import org.example.promotion.management.dto.request.ReserveCouponRequest;
+import org.example.promotion.management.dto.request.ValidateCouponRequest;
+import org.example.promotion.management.dto.request.CreateCouponRequest;
+import org.example.promotion.common.dto.response.ApiResponse;
+import org.example.promotion.management.dto.response.CouponReservationResponse;
+import org.example.promotion.management.dto.response.CouponValidationResponse;
+import org.example.promotion.management.dto.response.CouponResponse;
+import org.example.promotion.management.service.ICouponService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

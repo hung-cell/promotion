@@ -1,8 +1,8 @@
-package org.example.promotion.entity;
+package org.example.promotion.management.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.promotion.enums.ConditionType;
+import org.example.promotion.common.enums.ConditionType;
 import lombok.experimental.SuperBuilder;
 
 @Entity

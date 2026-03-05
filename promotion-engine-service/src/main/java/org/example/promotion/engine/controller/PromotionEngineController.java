@@ -1,146 +1,144 @@
 package org.example.promotion.engine.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.promotion.engine.dto.request.CalculateRequest;
+import org.example.promotion.engine.dto.request.CommitRequest;
+import org.example.promotion.engine.dto.request.ReleaseRequest;
+import org.example.promotion.engine.dto.request.ReserveRequest;
+import org.example.promotion.engine.dto.request.ValidateRequest;
+import org.example.promotion.common.dto.response.ApiResponse;
+import org.example.promotion.engine.dto.response.CalculateResponse;
+import org.example.promotion.engine.dto.response.ReservationResponse;
+import org.example.promotion.engine.dto.response.ValidateResponse;
+import org.example.promotion.engine.cache.PromotionCacheService;
+import org.example.promotion.engine.service.PromotionCalculationService;
+import org.example.promotion.engine.service.PromotionReservationService;
+import org.example.promotion.engine.service.PromotionValidationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Promotion Engine API Controller
- * Handles calculation, validation, and reservation of promotions
- */
 @RestController
 @RequestMapping("/api/v1/engine")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Promotion Engine", description = "APIs for calculating, validating, and reserving promotions")
 public class PromotionEngineController {
 
-    /**
-     * Calculate promotions for cart/order
-     * POST /api/v1/engine/calculate
-     */
+    private final PromotionCalculationService calculationService;
+    private final PromotionValidationService validationService;
+    private final PromotionReservationService reservationService;
+    private final PromotionCacheService cacheService;
+
+    // ─── Calculate ────────────────────────────────────────────────────────────
+
+    @Operation(summary = "Tính toán promotion cho giỏ hàng")
     @PostMapping("/calculate")
-    public ResponseEntity<Map<String, Object>> calculate(@RequestBody Map<String, Object> request) {
-        log.info("Calculate request received: {}", request);
-        
-        // TODO: Implement calculation logic
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("message", "Calculation endpoint - To be implemented");
-        response.put("timestamp", LocalDateTime.now());
-        
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<CalculateResponse>> calculate(@Valid @RequestBody CalculateRequest request) {
+        log.info("POST /api/v1/engine/calculate - customerId={}", request.getCustomerId());
+        CalculateResponse result = calculationService.calculate(request);
+        return ResponseEntity.ok(ApiResponse.<CalculateResponse>builder()
+                .success(true)
+                .data(result)
+                .build());
     }
 
-    /**
-     * Preview promotions (without reservation)
-     * POST /api/v1/engine/preview
-     */
+    @Operation(summary = "Preview promotion cho giỏ hàng (không reserve quota)")
     @PostMapping("/preview")
-    public ResponseEntity<Map<String, Object>> preview(@RequestBody Map<String, Object> request) {
-        log.info("Preview request received: {}", request);
-        
-        // TODO: Implement preview logic
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("message", "Preview endpoint - To be implemented");
-        
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<CalculateResponse>> preview(@Valid @RequestBody CalculateRequest request) {
+        log.info("POST /api/v1/engine/preview - customerId={}", request.getCustomerId());
+        // Preview is the same calculation but doesn't reserve quota
+        CalculateResponse result = calculationService.calculate(request);
+        return ResponseEntity.ok(ApiResponse.<CalculateResponse>builder()
+                .success(true)
+                .data(result)
+                .build());
     }
 
-    /**
-     * Validate promotions
-     * POST /api/v1/engine/validate
-     */
+    // ─── Validate ─────────────────────────────────────────────────────────────
+
+    @Operation(summary = "Validate promotion có thể áp dụng")
     @PostMapping("/validate")
-    public ResponseEntity<Map<String, Object>> validate(@RequestBody Map<String, Object> request) {
-        log.info("Validate request received: {}", request);
-        
-        // TODO: Implement validation logic
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("message", "Validate endpoint - To be implemented");
-        
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<ValidateResponse>> validate(@Valid @RequestBody ValidateRequest request) {
+        log.info("POST /api/v1/engine/validate - promotionIds={}", request.getPromotionIds());
+        ValidateResponse result = validationService.validate(request);
+        return ResponseEntity.ok(ApiResponse.<ValidateResponse>builder()
+                .success(true)
+                .data(result)
+                .build());
     }
 
-    /**
-     * Reserve promotion quota
-     * POST /api/v1/engine/reserve
-     */
+    // ─── Reserve / Commit / Release ───────────────────────────────────────────
+
+    @Operation(summary = "Reserve promotion quota khi checkout")
     @PostMapping("/reserve")
-    public ResponseEntity<Map<String, Object>> reserve(@RequestBody Map<String, Object> request) {
-        log.info("Reserve request received: {}", request);
-        
-        // TODO: Implement reservation logic
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("message", "Reserve endpoint - To be implemented");
-        
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<ReservationResponse>> reserve(@Valid @RequestBody ReserveRequest request) {
+        log.info("POST /api/v1/engine/reserve - orderId={}", request.getOrderId());
+        ReservationResponse result = reservationService.reserve(request);
+        return ResponseEntity.ok(ApiResponse.<ReservationResponse>builder()
+                .success(true)
+                .data(result)
+                .message("Promotion quota reserved successfully")
+                .build());
     }
 
-    /**
-     * Commit promotion usage
-     * POST /api/v1/engine/commit
-     */
+    @Operation(summary = "Commit promotion usage sau khi đặt hàng thành công")
     @PostMapping("/commit")
-    public ResponseEntity<Map<String, Object>> commit(@RequestBody Map<String, Object> request) {
-        log.info("Commit request received: {}", request);
-        
-        // TODO: Implement commit logic
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("message", "Commit endpoint - To be implemented");
-        
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<Void>> commit(@Valid @RequestBody CommitRequest request) {
+        log.info("POST /api/v1/engine/commit - reservationId={}", request.getReservationId());
+        reservationService.commit(request);
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .success(true)
+                .message("Promotion usage committed successfully")
+                .build());
     }
 
-    /**
-     * Release reservation
-     * POST /api/v1/engine/release
-     */
+    @Operation(summary = "Release reservation khi hủy đơn hàng")
     @PostMapping("/release")
-    public ResponseEntity<Map<String, Object>> release(@RequestBody Map<String, Object> request) {
-        log.info("Release request received: {}", request);
-        
-        // TODO: Implement release logic
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("message", "Release endpoint - To be implemented");
-        
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<Void>> release(@Valid @RequestBody ReleaseRequest request) {
+        log.info("POST /api/v1/engine/release - reservationId={}", request.getReservationId());
+        reservationService.release(request);
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .success(true)
+                .message("Reservation released successfully")
+                .build());
     }
 
-    /**
-     * Health check
-     * GET /api/v1/engine/health
-     */
+    // ─── Cache Management ─────────────────────────────────────────────────────
+
+    @Operation(summary = "Warm up cache thủ công")
+    @PostMapping("/cache/warmup")
+    public ResponseEntity<ApiResponse<String>> warmup() {
+        log.info("POST /api/v1/engine/cache/warmup");
+        cacheService.warmUpCache();
+        return ResponseEntity.ok(ApiResponse.<String>builder()
+                .success(true)
+                .message("Cache warmed up successfully")
+                .build());
+    }
+
+    @Operation(summary = "Invalidate cache của 1 promotion")
+    @DeleteMapping("/cache/{promotionId}")
+    public ResponseEntity<ApiResponse<Void>> invalidateCache(@PathVariable Long promotionId) {
+        cacheService.invalidate(promotionId);
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .success(true)
+                .message("Cache invalidated for promotionId=" + promotionId)
+                .build());
+    }
+
+    // ─── Health ───────────────────────────────────────────────────────────────
+
+    @Operation(summary = "Health check")
     @GetMapping("/health")
-    public ResponseEntity<Map<String, Object>> health() {
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", "UP");
-        response.put("service", "promotion-engine-service");
-        response.put("timestamp", LocalDateTime.now());
-        
-        return ResponseEntity.ok(response);
-    }
-
-    /**
-     * Get metrics
-     * GET /api/v1/engine/metrics
-     */
-    @GetMapping("/metrics")
-    public ResponseEntity<Map<String, Object>> metrics() {
-        // TODO: Implement real metrics
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("message", "Metrics endpoint - To be implemented");
-        
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<String>> health() {
+        return ResponseEntity.ok(ApiResponse.<String>builder()
+                .success(true)
+                .data("UP")
+                .message("promotion-engine-service is running")
+                .build());
     }
 }

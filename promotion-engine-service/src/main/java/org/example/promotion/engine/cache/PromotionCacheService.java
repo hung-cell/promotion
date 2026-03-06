@@ -47,7 +47,8 @@ public class PromotionCacheService {
 
         try {
             List<Promotion> activePromotions = promotionRepository
-                    .findAllWithFilters(PromotionStatus.ACTIVE, org.springframework.data.domain.PageRequest.of(0, 1000))
+                    .findAllWithFilters(PromotionStatus.ACTIVE,
+                            org.springframework.data.domain.PageRequest.of(0, 1000))
                     .getContent();
 
             int loaded = 0;
@@ -99,7 +100,8 @@ public class PromotionCacheService {
         if (activeIds == null || activeIds.isEmpty()) {
             log.warn("[Cache] Active promotions set is empty, falling back to DB");
             return promotionRepository
-                    .findAllWithFilters(PromotionStatus.ACTIVE, org.springframework.data.domain.PageRequest.of(0, 1000))
+                    .findAllWithFilters(PromotionStatus.ACTIVE,
+                            org.springframework.data.domain.PageRequest.of(0, 1000))
                     .getContent();
         }
 

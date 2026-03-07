@@ -1,0 +1,124 @@
+spring:
+  application:
+    name: promotion-engine-service
+
+  profiles:
+    active: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3307/promotion_engine?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  # Redis configuration
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 50
+          max-idle: 20
+          min-idle: 10
+
+  # Kafka configuration
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      group-id: promotion-engine-consumer-v2
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    topics:
+      promotion-lifecycle: promotion.lifecycle.events.v3
+
+  # Cache configuration
+  cache:
+    type: redis
+    redis:
+      time-to-live: 300000 # 5 minutes
+
+server:
+  port: 8081
+  tomcat:
+    threads:
+      max: 200
+      min-spare: 20
+
+logging:
+  level:
+    org.example.promotion: INFO
+    org.springframework.kafka: WARN
+  file:
+    name: logs/promotion-engine.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+
+# Actuator configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+
+# =================== App Config ===================
+cache:
+  promotion-ttl: 300 # 5 minutes in seconds
+  calculation-ttl: 30 # 30 seconds
+  warmup-on-startup: true
+
+reservation:
+  default-ttl: 600 # 10 minutes in seconds
+  cleanup-interval: 60 # 1 minute
+
+performance:
+  max-throughput: 10000 # requests per second
+  circuit-breaker:
+    enabled: true
+    failure-threshold: 50
+    timeout: 10000
+
+# Kafka topics
+kafka:
+  topics:
+    promotion-lifecycle: promotion.lifecycle.events
+    promotion-rules: promotion.rule.events
+    promotion-conditions: promotion.condition.events
+    usage-events: promotion.usage.events
+
+# Promotion Management Service connection
+promotion-management:
+  base-url: http://localhost:8080
+  api-key: ${PROMOTION_MANAGEMENT_API_KEY:dev-api-key-67890}
+  connect-timeout: 5000
+  read-timeout: 10000

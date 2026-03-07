@@ -34,14 +34,14 @@ spring:
 
   # Kafka configuration
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:29092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         spring.json.add.type.headers: false
     template:
-      default-topic: promotion.lifecycle.events
+      default-topic: promotion.lifecycle.events.v3
 
 server:
   port: 8080
@@ -70,17 +70,16 @@ app:
   coupon:
     reservation:
       ttl-minutes: 15
+    scheduler:
+      release-rate-ms: 60000
   promotion:
     scheduler:
       expire-rate-ms: 60000
-  coupon:
-    scheduler:
-      release-rate-ms: 60000
 
 # Kafka topics
 kafka:
   topics:
-    promotion-lifecycle: promotion.lifecycle.events
+    promotion-lifecycle: promotion.lifecycle.events.v3
     promotion-rules: promotion.rule.events
     promotion-conditions: promotion.condition.events
 

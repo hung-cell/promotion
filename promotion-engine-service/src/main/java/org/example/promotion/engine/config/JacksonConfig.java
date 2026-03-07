@@ -1,4 +1,4 @@
-package org.example.promotion.management.config;
+package org.example.promotion.engine.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

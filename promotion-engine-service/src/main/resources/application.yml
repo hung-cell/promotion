@@ -38,15 +38,15 @@ spring:
 
   # Kafka configuration
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:29092
     consumer:
-      group-id: promotion-engine-consumer
+      group-id: promotion-engine-consumer-v2
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       properties:
         spring.json.trusted.packages: "*"
-        spring.json.type.mapping: promotionEvent:org.example.promotion.common.event.PromotionEvent
-      auto-offset-reset: earliest
+    topics:
+      promotion-lifecycle: promotion.lifecycle.events.v3
 
   # Cache configuration
   cache:

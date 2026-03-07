@@ -60,11 +60,11 @@ public class Promotion extends BaseEntity {
     @Builder.Default
     private PromotionStatus status = PromotionStatus.DRAFT;
 
-    @OneToMany(mappedBy = "promotion", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "promotion", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<PromotionRule> rules = new ArrayList<>();
 
-    @OneToMany(mappedBy = "promotion", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "promotion", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<PromotionCondition> conditions = new ArrayList<>();
 }

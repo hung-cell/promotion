@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.example.promotion.management.service.IAuditLogService;
 import org.example.promotion.management.service.IPromotionService;
 
@@ -36,6 +39,28 @@ public class PromotionServiceImpl implements IPromotionService {
     private final PromotionStackingRuleRepository stackingRuleRepository;
     private final IAuditLogService auditLogService;
     private final PromotionMapper mapper;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
+
+    @Value("${kafka.topics.promotion-lifecycle:promotion.lifecycle.events}")
+    private String promotionLifecycleTopic;
+
+    private void publishEvent(String action, Promotion promotion, Map<String, Object> additionalData) {
+        try {
+            Map<String, Object> event = new HashMap<>();
+            event.put("action", action);
+            event.put("promotionId", promotion.getId());
+            if ("CREATE".equals(action) || "UPDATE".equals(action) || "ACTIVATE".equals(action)) {
+                event.put("promotion", mapper.toDetailResponse(promotion));
+            }
+            if (additionalData != null) {
+                event.putAll(additionalData);
+            }
+            kafkaTemplate.send(promotionLifecycleTopic, String.valueOf(promotion.getId()), event);
+            log.info("Published Kafka event: action={}, promotionId={}", action, promotion.getId());
+        } catch (Exception e) {
+            log.error("Failed to publish Kafka event: action={}, promotionId={}", action, promotion.getId(), e);
+        }
+    }
 
     // =================== Promotion CRUD ===================
 
@@ -47,6 +72,8 @@ public class PromotionServiceImpl implements IPromotionService {
 
         auditLogService.saveAuditLog(promotion.getId(), "CREATE", null);
         log.info("Created promotion: id={}, name={}", promotion.getId(), promotion.getName());
+
+        publishEvent("CREATE", promotion, null);
 
         return mapper.toResponse(promotion);
     }
@@ -128,6 +155,8 @@ public class PromotionServiceImpl implements IPromotionService {
         }
         log.info("Updated promotion: id={}", promotion.getId());
 
+        publishEvent("UPDATE", promotion, null);
+
         return mapper.toResponse(promotion);
     }
 
@@ -146,6 +175,8 @@ public class PromotionServiceImpl implements IPromotionService {
 
         auditLogService.saveAuditLog(promotion.getId(), "DELETE", null);
         log.info("Soft deleted promotion: id={}", id);
+
+        publishEvent("DELETE", promotion, null);
     }
 
     // =================== Lifecycle ===================
@@ -170,6 +201,8 @@ public class PromotionServiceImpl implements IPromotionService {
         auditLogService.saveAuditLog(promotion.getId(), "ACTIVATE", null);
         log.info("Activated promotion: id={}", id);
 
+        publishEvent("ACTIVATE", promotion, null);
+
         return mapper.toResponse(promotion);
     }
 
@@ -192,6 +225,8 @@ public class PromotionServiceImpl implements IPromotionService {
         auditLogService.saveAuditLog(promotion.getId(), "DISABLE", changes.isEmpty() ? null : changes);
         log.info("Disabled promotion: id={}, reason={}", id,
                 request != null ? request.getReason() : "N/A");
+
+        publishEvent("DISABLE", promotion, null);
 
         return mapper.toResponse(promotion);
     }
